@@ -1,0 +1,27 @@
+model User {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime     @default(now())
+  updateAt    DateTime     @default(now())
+  email       String
+  file        File[]
+  credentials Credentials?
+}
+
+model Credentials {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt            DateTime @default(now())
+  updateAt             DateTime @default(now())
+  password             String
+  token_auto_generated String?
+  user                 User?    @relation(fields: [user_id], references: [id])
+  user_id              String?  @unique @db.ObjectId
+}
+
+model File {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @default(now())
+  url_for_doc String
+  user        User?    @relation(fields: [user_id], references: [id])
+  user_id     String?  @db.ObjectId
+}
